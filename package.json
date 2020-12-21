@@ -4,7 +4,10 @@
   "description": "User can perform multiple Google searches - User can perform SEC search - First pages per search will be saved as PDFs",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.17.1"
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "get-title-at-url": "^1.1.8",
+    "puppeteer": "^5.5.0"
   },
   "devDependencies": {},
   "scripts": {
