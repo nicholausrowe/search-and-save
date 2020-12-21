@@ -3,31 +3,18 @@
 
 const button = document.getElementById('search-btn');
 
-button.addEventListener('click', function(){
+button.addEventListener('click', function () {
   console.log("oh shit");
-  makeQueries2();
+  makeQueries();
 })
 
 
 function makeQueries() {
 
-fs.mkdir('/home', function () {
-  fs.writeFile('/home/hello-world.txt', 'Hello world!\n', function () {
-    fs.readFile('/home/hello-world.txt', 'utf-8', function (err, data) {
-      console.log(data);
-    });
-  });
-});
-}
-
-
-function makeQueries2() {
-
   toggleClass('waiting-puppy', 'hidden', 'visible');
 
   let names = document.getElementById("names-input").value.split(", ");
   let keywords = document.getElementById("keywords-input").value.split(", ");
-  // let ticker = document.getElementById("ticker-input").value;
   let ticker = document.getElementById("ticker-input").value;
   let saveFolder = document.getElementById("save-folder-input").value;
 
@@ -56,35 +43,29 @@ function makeQueries2() {
 function postURL(URL) {
   fetch('../', {
     method: 'post',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({'url': URL})
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 'url': URL })
   })
-  .then(function (response) {
-    let filename = response.headers.get('content-disposition')
-    .split(';')
-    .find(n => n.includes('filename='))
-    .replace('filename=', '')
-    .trim()
-    .slice(1, -1)
-    .replace(/\\/g, '')
-    .replace(/"/g, "'");
-    return response.blob().then(blob => download(blob, filename));
-  })
-  .then(function (response) {
-
-  })
-
-
-
-
-
-  .catch((error) => {
-    document.getElementById('errors')
-      .insertAdjacentHTML('afterbegin',
-      `<span class="err-msg">
+    .then(function (response) {
+      let filename = response.headers.get('content-disposition')
+        .split(';')
+        .find(n => n.includes('filename='))
+        .replace('filename=', '')
+        .trim()
+        .slice(1, -1)
+        .replace(/\\/g, '')
+        .replace(/"/g, "'");
+      return response.blob().then(blob => download(blob, filename));
+    })
+    // .then(function (response) {
+    // })
+    .catch((error) => {
+      document.getElementById('errors')
+        .insertAdjacentHTML('afterbegin',
+          `<span class="err-msg">
        Failed to create PDF for: ${URL}</span><br>`);
-    return Promise.reject();
-  })
+      return Promise.reject();
+    })
 }
 
 function toggleClass(elementId, class1, class2) {
