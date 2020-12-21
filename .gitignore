@@ -1,0 +1,5 @@
+/node_modules
+*.pdf
+/ignore
+.DS_Store
+/client/public/pdf

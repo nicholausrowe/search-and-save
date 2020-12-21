@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search and Save</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <main>
+    <div class="container">
+
+      <h1>Search and Save</h1>
+
+      <form>
+
+        <h2>Names</h2>
+        <textarea type="text" id="names-input" name="names-input" placeholder="Enter names separated by commas"></textarea>
+
+        <h2>Keywords</h2>
+        <textarea type="text" id="keywords-input" name="keywords-input">fraud, lawsuit, scam, felony, conviction</textarea>
+
+        <div id="ticker-puppy-container">
+          <div id="ticker-title-and-input">
+            <h2>Ticker</h2>
+            <textarea type="text" id="ticker-input" name="ticker-input" maxlength="5"></textarea>
+          </div>
+
+          <div id="progress"><img src="./img/waiting-puppy.gif" alt="" id="waiting-puppy" class="hidden"></div>
+        </div>
+
+        <h2>Save Folder</h2>
+        <textarea type="text" id="save-folder-input" name="save-folder-input"></textarea>
+
+        <!-- <input type="button" name="search-btn" id="search-btn" class="btn" value="SEARCH" onClick="makeQueries();"> -->
+
+        <input type="button" name="search-btn" id="search-btn" class="btn" value="SEARCH">
+
+      </form>
+
+    </div>
+  </main>
+
+  <div id="errors"><!-- errors get sent here --> </div>
+
+
+  <!-- <a href="#" class="download-link" download>Download</a> -->
+
+
+  <!-- <script type="module" src="FileSaver.js">
+  </script> -->
+  <!-- <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script> -->
+
+
+
+
+  <script src="autosize.min.js"></script>
+  <script>autosize(document.querySelectorAll('textarea'));</script>
+
+  <script src="download.js"></script>
+  <script src="main.js"></script>
+  <!-- <script src="bundle.js"></script> -->
+
+</body>
+</html>

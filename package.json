@@ -1,0 +1,24 @@
+{
+  "name": "search-and-save",
+  "version": "1.0.0",
+  "description": "User can perform multiple Google searches - User can perform SEC search - First pages per search will be saved as PDFs",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \\\"Error: no test specified\\\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicholausrowe/search-and-save.git"
+  },
+  "author": "Nicholaus Rowe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicholausrowe/search-and-save/issues"
+  },
+  "homepage": "https://github.com/nicholausrowe/search-and-save#readme"
+}
