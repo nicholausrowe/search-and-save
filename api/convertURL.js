@@ -12,8 +12,11 @@ module.exports = async function convertURL(passedInURL) {
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage', // Uses /tmp instead of /dev/shm
         '--disable-gpu',
+        '--disable-features=VizDisplayCompositor', // Prevents Chrome from using a GPU process
+        '--disable-background-networking',
         '--disable-background-timer-throttling',
         '--disable-backgrounding-occluded-windows',
+        '--disable-client-side-phishing-detection',
         '--disable-renderer-backgrounding',
         '--no-zygote', // Disables the zygote process, which reduces memory usage
         '--disable-software-rasterizer', // Disable software rasterizer
@@ -24,7 +27,18 @@ module.exports = async function convertURL(passedInURL) {
         '--disable-web-security', // Disable web security to avoid CORS issues
         '--disable-extensions', // Disable extensions
         '--disable-default-apps', // Disable default apps
-        '--remote-debugging-port=0' // Open debugging port
+        '--remote-debugging-port=0', // Open debugging port
+        '--disable-hang-monitor',
+        '--disable-prompt-on-repost',
+        '--disable-sync',
+        '--disable-translate',
+        '--metrics-recording-only',
+        '--no-first-run',
+        '--safebrowsing-disable-auto-update',
+        '--enable-automation',
+        '--password-store=basic',
+        '--use-mock-keychain',
+        '--single-process'
       ],
       headless: true,
       timeout: 60000 // Increase the timeout to 60 seconds
