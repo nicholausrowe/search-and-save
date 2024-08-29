@@ -6,8 +6,9 @@ module.exports = async function convertURL(passedInURL) {
   try {
     // Launch Puppeteer with necessary arguments
     browser = await puppeteer.launch({
-      headless: true, // or false if you want to see the browser
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: '/app/.cache/puppeteer/chrome', // Use the correct cache path
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Required for running on Heroku
+      headless: true
     });
 
     const page = await browser.newPage();
