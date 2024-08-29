@@ -14,7 +14,9 @@ module.exports = async function convertURL(passedInURL) {
         '--disable-gpu',
         '--disable-background-timer-throttling',
         '--disable-backgrounding-occluded-windows',
-        '--disable-renderer-backgrounding'
+        '--disable-renderer-backgrounding',
+        '--single-process', // Ensures Puppeteer runs in a single process to reduce thread usage
+        '--no-zygote' // Disables the zygote process, which reduces memory usage
       ],
       headless: true
     });
@@ -22,7 +24,7 @@ module.exports = async function convertURL(passedInURL) {
     const page = await browser.newPage();
     await page.goto(passedInURL, {
       waitUntil: 'networkidle2', // Wait until network is idle
-      timeout: 0 // 0 means no timeout; you can specify a longer time in milliseconds if preferred
+      timeout: 60000 // Set a 60-second timeout
     });
 
     // Get the title of the page for the file name
