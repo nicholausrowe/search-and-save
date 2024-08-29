@@ -9,8 +9,7 @@ module.exports = async function convertURL(passedInURL) {
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
-      ],
-      executablePath: '/usr/bin/google-chrome-stable', // Explicitly specify Chrome path
+      ]
     });
 
     const page = await browser.newPage();
