@@ -37,6 +37,8 @@ app.post('/', async (req, res, next) => {
   }
 });
 
-app.listen(80, () => {
-  console.log('Express server listening on port 80!');
+const PORT = process.env.PORT || 3000; // Use Heroku's environment variable PORT or fallback to 3000
+
+app.listen(PORT, () => {
+  console.log(`Express server listening on port ${PORT}!`);
 });
