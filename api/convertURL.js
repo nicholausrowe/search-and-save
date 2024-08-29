@@ -9,7 +9,8 @@ module.exports = async function convertURL(passedInURL) {
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
-      ]
+      ],
+      headless: true, // Run in headless mode
     });
 
     const page = await browser.newPage();
