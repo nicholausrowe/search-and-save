@@ -11,7 +11,7 @@
   "scripts": {
     "test": "echo \\\"Error: no test specified\\\" && exit 1",
     "start": "node server.js",
-    "postinstall": "node node_modules/puppeteer/install.js"
+    "postinstall": "PUPPETEER_SKIP_DOWNLOAD=false PUPPETEER_CHROMIUM_REVISION=818858 npm install puppeteer"
   },
   "repository": {
     "type": "git",
