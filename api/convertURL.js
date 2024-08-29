@@ -6,11 +6,8 @@ module.exports = async function convertURL(passedInURL) {
   try {
     // Launch Puppeteer with necessary arguments
     browser = await puppeteer.launch({
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-      ],
-      headless: true, // Run in headless mode
+      headless: true, // or false if you want to see the browser
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     const page = await browser.newPage();
