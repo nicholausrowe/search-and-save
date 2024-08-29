@@ -29,7 +29,7 @@ module.exports = async function convertURL(passedInURL) {
         '--remote-debugging-port=9222' // Open debugging port
       ],
       headless: true,
-      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+      // executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
     });
 
     const page = await browser.newPage();
