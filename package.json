@@ -5,6 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "express": "^4.17.1",
+    "p-queue": "^8.0.1",
     "puppeteer": "^23.2.0"
   },
   "scripts": {
