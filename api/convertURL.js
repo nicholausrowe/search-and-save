@@ -24,9 +24,8 @@ module.exports = async function convertURL(passedInURL) {
         '--mute-audio', // Mute audio to avoid unnecessary resources
         '--disable-web-security', // Disable web security to avoid CORS issues
         '--disable-extensions', // Disable extensions
-        '--disable-software-rasterizer', // Avoid software rasterization
         '--disable-default-apps', // Disable default apps
-        '--remote-debugging-port=9222' // Open debugging port
+        '--remote-debugging-port=0' // Open debugging port
       ],
       headless: true,
       timeout: 60000 // Increase the timeout to 60 seconds
