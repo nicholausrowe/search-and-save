@@ -16,7 +16,7 @@ module.exports = async function convertURL(passedInURL) {
     });
 
     // Get the title of the page for the file name
-    let fileName = await page._frameManager._mainFrame.evaluate(() => document.title);
+    let fileName = await page.title();
 
     // Replace certain characters in the file name
     const chars = { '|': '-', ',': '' };
