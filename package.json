@@ -9,10 +9,9 @@
     "puppeteer-core": "^23.2.1"
   },
   "scripts": {
-    "test": "echo \\\"Error: no test specified\\\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "postinstall": "npx puppeteer install",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && npm run start && npx puppeteer install"
+    "postinstall": "npx puppeteer install"
   },
   "repository": {
     "type": "git",
