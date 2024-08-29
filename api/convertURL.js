@@ -6,7 +6,6 @@ module.exports = async function convertURL(passedInURL) {
   try {
     // Launch Puppeteer with necessary arguments
     browser = await puppeteer.launch({
-      executablePath: '/app/.cache/puppeteer/chrome-linux/chrome', // Correct the path to Chrome executable
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
       headless: true
     });
