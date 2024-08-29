@@ -15,7 +15,6 @@ module.exports = async function convertURL(passedInURL) {
         '--disable-background-timer-throttling',
         '--disable-backgrounding-occluded-windows',
         '--disable-renderer-backgrounding',
-        '--single-process', // Ensures Puppeteer runs in a single process to reduce thread usage
         '--no-zygote', // Disables the zygote process, which reduces memory usage
         '--disable-software-rasterizer', // Disable software rasterizer
         '--disable-gl-drawing-for-tests', // Disable GL drawing for tests
