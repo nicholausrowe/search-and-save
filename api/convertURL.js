@@ -7,13 +7,22 @@ module.exports = async function convertURL(passedInURL) {
   try {
     // Launch Puppeteer with necessary arguments
     browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage', // Uses /tmp instead of /dev/shm
+        '--disable-gpu',
+        '--disable-background-timer-throttling',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding'
+      ],
       headless: true
     });
 
     const page = await browser.newPage();
     await page.goto(passedInURL, {
       waitUntil: 'networkidle2', // Wait until network is idle
+      timeout: 0 // 0 means no timeout; you can specify a longer time in milliseconds if preferred
     });
 
     // Get the title of the page for the file name
