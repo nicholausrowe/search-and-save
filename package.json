@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/nicholausrowe/search-and-save/issues"
   },
-  "homepage": "https://github.com/nicholausrowe/search-and-save#readme"
+  "homepage": "https://github.com/nicholausrowe/search-and-save#readme",
+  "engines": {
+    "node": "22.7"
+  }
 }
