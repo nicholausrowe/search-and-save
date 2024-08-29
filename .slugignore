@@ -13,4 +13,4 @@ build/
 dist/
 public/
 serverBoot.vbs
-.cache
+// .cache
