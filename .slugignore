@@ -1,0 +1,15 @@
+node_modules/
+tests/
+coverage/
+*.log
+*.md
+tmp/
+docs/
+.env
+.git/
+*.map
+src/
+build/
+dist/
+public/
+serverBoot.vbs

@@ -12,7 +12,7 @@
     "test": "echo \\\"Error: no test specified\\\" && exit 1",
     "start": "node server.js",
     "postinstall": "npx puppeteer install",
-    "heroku-postbuild": "mkdir ./.cache && mv /app/.cache/puppeteer ./.cache"
+    "heroku-postbuild": "npm ci && mkdir -p ./.cache && mv /app/.cache/puppeteer ./.cache && curl -sf https://gobinaries.com/tj/node-prune | PREFIX=. sh && ./node-prune"
   },
   "repository": {
     "type": "git",
