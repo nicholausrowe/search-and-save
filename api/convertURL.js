@@ -1,36 +1,51 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 
-
 module.exports = async function convertURL(passedInURL) {
+  let browser;
+  try {
+    // Launch Puppeteer with necessary arguments
+    browser = await puppeteer.launch({
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+      ],
+    });
 
-  const browser = await puppeteer.launch({
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-    ],
-  });
+    const page = await browser.newPage();
+    await page.goto(passedInURL, {
+      waitUntil: 'networkidle2', // Wait until network is idle
+    });
 
-  const page = await browser.newPage();
-  await page.goto(passedInURL, {
-    waitUntil: 'networkidle2',
-  });
+    // Get the title of the page for the file name
+    let fileName = await page._frameManager._mainFrame.evaluate(() => document.title);
 
-  let fileName = await page._frameManager._mainFrame.evaluate(() => document.title);
+    // Replace certain characters in the file name
+    const chars = { '|': '-', ',': '' };
+    fileName = fileName.replace(/[\|,]/g, key => chars[key]);
 
-  const chars = {'\|': '-', ',': ''};
+    // Define the path to save the PDF
+    const pathToPDF = path.join(__dirname, `/pdf/${fileName}.pdf`);
 
-  fileName = fileName.replace(/[\|,]/g, key => chars[key]);
+    // Generate the PDF
+    await page.pdf({
+      path: pathToPDF,
+      format: 'letter',
+      printBackground: true,
+    });
 
-  const pathToPDF = path.join(__dirname, `/pdf/${fileName}.pdf`);
+    await browser.close();
 
-  await page.pdf({
-    path: pathToPDF,
-    format: 'letter',
-    printBackground: true
-  });
+    return pathToPDF;
 
-  await browser.close();
+  } catch (error) {
+    // Improved error logging
+    console.error('Error in convertURL:', error);
 
-  return pathToPDF;
-}
+    // Ensure the browser is closed if an error occurs
+    if (browser) {
+      await browser.close();
+    }
+    throw error; // Re-throw the error after logging
+  }
+};
