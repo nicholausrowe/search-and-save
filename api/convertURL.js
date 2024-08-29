@@ -41,13 +41,13 @@ module.exports = async function convertURL(passedInURL) {
         '--single-process'
       ],
       headless: true,
-      timeout: 60000 // Increase the timeout to 60 seconds
+      timeout: 120000 // Increase the timeout to 60 seconds
     });
 
     const page = await browser.newPage();
     await page.goto(passedInURL, {
       waitUntil: 'networkidle2', // Wait until network is idle
-      timeout: 60000 // Set a 60-second timeout
+      timeout: 120000 // Set a 60-second timeout
     });
 
     // Get the title of the page for the file name
