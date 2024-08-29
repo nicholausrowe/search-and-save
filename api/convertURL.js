@@ -77,7 +77,7 @@ module.exports = async function convertURL(passedInURL) {
     await browser.close();
 
     // Introduce delay after each query
-    await sleep(2000); // 2-second delay
+    await sleep(5000); // 2-second delay
 
     return pathToPDF;
   } catch (error) {
