@@ -10,7 +10,7 @@
   "scripts": {
     "test": "echo \\\"Error: no test specified\\\" && exit 1",
     "start": "node server.js",
-    "postinstall": "PUPPETEER_SKIP_DOWNLOAD=false npx puppeteer install"
+    "postinstall": "npx puppeteer@latest install --browser=chrome"
   },
   "repository": {
     "type": "git",
