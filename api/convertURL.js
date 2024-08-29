@@ -2,6 +2,9 @@ const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs').promises;
 
+// Helper function to introduce delays
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 module.exports = async function convertURL(passedInURL) {
   let browser;
   try {
@@ -10,24 +13,24 @@ module.exports = async function convertURL(passedInURL) {
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage', // Uses /tmp instead of /dev/shm
+        '--disable-dev-shm-usage',
         '--disable-gpu',
-        '--disable-features=VizDisplayCompositor', // Prevents Chrome from using a GPU process
+        '--disable-features=VizDisplayCompositor',
         '--disable-background-networking',
         '--disable-background-timer-throttling',
         '--disable-backgrounding-occluded-windows',
         '--disable-client-side-phishing-detection',
         '--disable-renderer-backgrounding',
-        '--no-zygote', // Disables the zygote process, which reduces memory usage
-        '--disable-software-rasterizer', // Disable software rasterizer
-        '--disable-gl-drawing-for-tests', // Disable GL drawing for tests
-        '--disable-accelerated-2d-canvas', // Disable accelerated 2D canvas
-        '--disable-features=IsolateOrigins,site-per-process', // Disable site isolation features
-        '--mute-audio', // Mute audio to avoid unnecessary resources
-        '--disable-web-security', // Disable web security to avoid CORS issues
-        '--disable-extensions', // Disable extensions
-        '--disable-default-apps', // Disable default apps
-        '--remote-debugging-port=0', // Open debugging port
+        '--no-zygote',
+        '--disable-software-rasterizer',
+        '--disable-gl-drawing-for-tests',
+        '--disable-accelerated-2d-canvas',
+        '--disable-features=IsolateOrigins,site-per-process',
+        '--mute-audio',
+        '--disable-web-security',
+        '--disable-extensions',
+        '--disable-default-apps',
+        '--remote-debugging-port=0',
         '--disable-hang-monitor',
         '--disable-prompt-on-repost',
         '--disable-sync',
@@ -38,16 +41,15 @@ module.exports = async function convertURL(passedInURL) {
         '--enable-automation',
         '--password-store=basic',
         '--use-mock-keychain',
-        '--single-process'
       ],
       headless: true,
-      timeout: 120000 // Increase the timeout to 60 seconds
+      timeout: 120000, // Increase the timeout to 120 seconds
     });
 
     const page = await browser.newPage();
     await page.goto(passedInURL, {
       waitUntil: 'networkidle2', // Wait until network is idle
-      timeout: 120000 // Set a 60-second timeout
+      timeout: 120000, // Set a 120-second timeout
     });
 
     // Get the title of the page for the file name
@@ -55,7 +57,7 @@ module.exports = async function convertURL(passedInURL) {
 
     // Replace certain characters in the file name
     const chars = { '|': '-', ',': '' };
-    fileName = fileName.replace(/[\|,]/g, key => chars[key]);
+    fileName = fileName.replace(/[\|,]/g, (key) => chars[key]);
 
     // Define the path to save the PDF
     const pdfDir = path.join(__dirname, 'pdf');
@@ -71,18 +73,27 @@ module.exports = async function convertURL(passedInURL) {
       printBackground: true,
     });
 
+    // Close browser after operation
     await browser.close();
 
-    return pathToPDF;
+    // Introduce delay after each query
+    await sleep(2000); // 2-second delay
 
+    return pathToPDF;
   } catch (error) {
-    // Improved error logging
     console.error('Error in convertURL:', error);
 
     // Ensure the browser is closed if an error occurs
     if (browser) {
       await browser.close();
     }
+
+    // Additional error handling: Retry logic or specific checks
+    if (error.message.includes('Timed out')) {
+      console.warn('Retrying due to timeout...');
+      return await convertURL(passedInURL); // Retry once on timeout
+    }
+
     throw error; // Re-throw the error after logging
   }
 };
