@@ -16,7 +16,17 @@ module.exports = async function convertURL(passedInURL) {
         '--disable-backgrounding-occluded-windows',
         '--disable-renderer-backgrounding',
         '--single-process', // Ensures Puppeteer runs in a single process to reduce thread usage
-        '--no-zygote' // Disables the zygote process, which reduces memory usage
+        '--no-zygote', // Disables the zygote process, which reduces memory usage
+        '--disable-software-rasterizer', // Disable software rasterizer
+        '--disable-gl-drawing-for-tests', // Disable GL drawing for tests
+        '--disable-accelerated-2d-canvas', // Disable accelerated 2D canvas
+        '--disable-features=IsolateOrigins,site-per-process', // Disable site isolation features
+        '--mute-audio', // Mute audio to avoid unnecessary resources
+        '--disable-web-security', // Disable web security to avoid CORS issues
+        '--disable-extensions', // Disable extensions
+        '--disable-software-rasterizer', // Avoid software rasterization
+        '--disable-default-apps', // Disable default apps
+        '--remote-debugging-port=9222' // Open debugging port
       ],
       headless: true
     });
