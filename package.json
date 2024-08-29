@@ -10,7 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "heroku-postbuild": "npx puppeteer install && mkdir ./.cache && mv /app/.cache/puppeteer ./.cache"
+    "heroku-postbuild": "npx puppeteer install && if [ -d /app/.cache/puppeteer ]; then mkdir -p ./.cache && mv /app/.cache/puppeteer ./.cache; fi"
   },
   "repository": {
     "type": "git",
