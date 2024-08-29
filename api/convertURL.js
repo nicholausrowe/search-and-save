@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
+const fs = require('fs').promises;
 
 module.exports = async function convertURL(passedInURL) {
   let browser;
@@ -23,7 +24,11 @@ module.exports = async function convertURL(passedInURL) {
     fileName = fileName.replace(/[\|,]/g, key => chars[key]);
 
     // Define the path to save the PDF
-    const pathToPDF = path.join(__dirname, `/pdf/${fileName}.pdf`);
+    const pdfDir = path.join(__dirname, 'pdf');
+    const pathToPDF = path.join(pdfDir, `${fileName}.pdf`);
+
+    // Create the 'pdf' directory if it does not exist
+    await fs.mkdir(pdfDir, { recursive: true });
 
     // Generate the PDF
     await page.pdf({
