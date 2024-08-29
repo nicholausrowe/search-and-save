@@ -28,7 +28,8 @@ module.exports = async function convertURL(passedInURL) {
         '--disable-default-apps', // Disable default apps
         '--remote-debugging-port=9222' // Open debugging port
       ],
-      headless: true
+      headless: true,
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
     });
 
     const page = await browser.newPage();
