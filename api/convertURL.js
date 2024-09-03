@@ -4,15 +4,17 @@ const fs = require('fs').promises;
 
 let PQueue; // Declare PQueue globally
 let queue;  // Declare queue globally
+let isQueueInitialized = false; // Flag to check if queue is initialized
 
-// Function to initialize the queue dynamically
+// Function to dynamically import and initialize PQueue
 async function initializeQueue() {
-  if (!PQueue) {
+  if (!isQueueInitialized) {
     try {
-      const module = await import('p-queue'); // Dynamically import the module
+      const module = await import('p-queue'); // Dynamically import the ES module
       PQueue = module.default; // Assign the imported default export to PQueue
       queue = new PQueue({ concurrency: 2 });
       console.log('PQueue has been initialized successfully!');
+      isQueueInitialized = true; // Set flag to indicate initialization is done
     } catch (error) {
       console.error('Error importing p-queue:', error);
       throw error;
@@ -20,17 +22,14 @@ async function initializeQueue() {
   }
 }
 
-// Ensure initialization happens once
+// Function to ensure queue is initialized
 async function ensureInitialized() {
-  if (!queue) {
-    await initializeQueue();
-  }
+  await initializeQueue(); // Always await to ensure the queue is initialized before use
 }
 
 // Function to convert URL to PDF
 async function convertURL(passedInURL) {
-  // Ensure queue is initialized
-  await ensureInitialized();
+  await ensureInitialized(); // Ensure queue is initialized
 
   if (!queue) {
     throw new Error('Queue is not initialized properly.');
