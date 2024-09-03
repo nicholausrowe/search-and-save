@@ -24,14 +24,14 @@ async function initializeQueue() {
   return queueInitializationPromise; // Return the promise to ensure it's awaited
 }
 
-// Ensure initialization happens once and is awaited
+// Function to ensure that the queue is initialized
 async function ensureInitialized() {
-  await initializeQueue(); // Await initialization to complete
+  await initializeQueue(); // Await the promise for initialization
 }
 
 // Function to convert URL to PDF
 async function convertURL(passedInURL) {
-  // Ensure queue is initialized
+  // Wait for the queue to be initialized
   await ensureInitialized();
 
   if (!queue) {
