@@ -12,6 +12,7 @@ async function convertURL(passedInURL) {
     let browser;
     try {
       browser = await Puppeteer.launch({
+        executablePath: '/root/.cache/puppeteer/chrome/linux-128.0.6613.119/chrome-linux64/chrome',
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
