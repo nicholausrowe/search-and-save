@@ -4,29 +4,33 @@ const fs = require('fs').promises;
 
 let PQueue; // Declare PQueue globally
 let queue;  // Declare queue globally
+let queueInitializationPromise; // Promise to track initialization
 
 // Function to initialize the queue dynamically
 async function initializeQueue() {
-  if (!PQueue) {
-    try {
-      const module = await import('p-queue'); // Dynamically import the module
-      PQueue = module.default; // Assign the imported default export to PQueue
-      queue = new PQueue({ concurrency: 2 });
-      console.log('PQueue has been initialized successfully!');
-    } catch (error) {
-      console.error('Error importing p-queue:', error);
-      throw error;
-    }
+  if (!queueInitializationPromise) {
+    queueInitializationPromise = (async () => {
+      try {
+        const module = await import('p-queue'); // Dynamically import the module
+        PQueue = module.default; // Assign the imported default export to PQueue
+        queue = new PQueue({ concurrency: 2 });
+        console.log('PQueue has been initialized successfully!');
+      } catch (error) {
+        console.error('Error importing p-queue:', error);
+        throw error;
+      }
+    })();
   }
+  return queueInitializationPromise; // Return the promise to ensure it's awaited
 }
 
 // Immediately initialize the queue when the module is loaded
-const queueInitializationPromise = initializeQueue();
+initializeQueue(); // This will only run once due to the promise mechanism
 
 // Function to convert URL to PDF
 async function convertURL(passedInURL) {
   // Wait for the queue to be initialized
-  await queueInitializationPromise;
+  await initializeQueue();
 
   if (!queue) {
     throw new Error('Queue is not initialized properly.');
