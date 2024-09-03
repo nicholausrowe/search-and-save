@@ -1,7 +1,12 @@
 const Puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs').promises;
-const PQueue = require('p-queue');
+// const PQueue = require('p-queue');
+
+(async () => {
+  const PQueue = await import('p-queue');
+  // Your code here using PQueue
+})();
 
 // Create a queue with concurrency limit
 const queue = new PQueue({ concurrency: 1 }); // Set concurrency to 1 for single browser instance
