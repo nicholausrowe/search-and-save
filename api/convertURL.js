@@ -1,44 +1,17 @@
-// Make sure this is in convertURL.mjs or convertURL.js with "type": "module" in package.json
-import puppeteer from 'puppeteer';
+import Puppeteer from 'puppeteer';
 import path from 'path';
-import { promises as fs } from 'fs';
-import { fileURLToPath } from 'url';
+import fs from 'fs/promises'; // Import Promises API for fs
+import PQueue from 'p-queue';  // Correctly import p-queue using ES Module syntax
 
-let PQueue;
-let queue;
-let isQueueInitialized = false;
+// Initialize PQueue
+const queue = new PQueue({ concurrency: 2 });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-async function initializeQueue() {
-  if (!isQueueInitialized) {
-    try {
-      const { default: ImportedPQueue } = await import('p-queue');
-      PQueue = ImportedPQueue;
-      queue = new PQueue({ concurrency: 2 });
-      console.log('PQueue has been initialized successfully!');
-      isQueueInitialized = true;
-    } catch (error) {
-      console.error('Error importing p-queue:', error);
-      throw error;
-    }
-  }
-}
-
-async function ensureInitialized() {
-  await initializeQueue();
-}
-
+// Function to convert URL to PDF
 async function convertURL(passedInURL) {
-  await ensureInitialized();
-  if (!queue) {
-    throw new Error('Queue is not initialized properly.');
-  }
   return queue.add(async () => {
     let browser;
     try {
-      browser = await puppeteer.launch({
+      browser = await Puppeteer.launch({
         args: [
           '--no-sandbox',
           '--disable-dev-shm-usage',
@@ -74,7 +47,7 @@ async function convertURL(passedInURL) {
       const chars = { '|': '-', ',': '' };
       fileName = fileName.replace(/[\|,]/g, (key) => chars[key]);
 
-      const pdfDir = path.join(__dirname, 'pdf');
+      const pdfDir = path.join(process.cwd(), 'pdf');
       const pathToPDF = path.join(pdfDir, `${fileName}.pdf`);
       await fs.mkdir(pdfDir, { recursive: true });
 
@@ -96,4 +69,4 @@ async function convertURL(passedInURL) {
   });
 }
 
-export default convertURL;
+export default convertURL; // Use ES module export syntax
