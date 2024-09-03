@@ -3,10 +3,16 @@ const path = require('path');
 const fs = require('fs').promises;
 // const PQueue = require('p-queue');
 
+// Define an async function to handle the dynamic import
 (async () => {
-  const PQueue = await import('p-queue');
-  // Your code here using PQueue
-})();
+  // Dynamically import the ES Module
+  const { default: PQueue } = await import('p-queue');
+
+  // Now you can safely use PQueue in your CommonJS module
+  const queue = new PQueue({ concurrency: 2 });
+
+  // Your existing logic using queue
+})().catch(error => console.error(error));
 
 // Create a queue with concurrency limit
 const queue = new PQueue({ concurrency: 1 }); // Set concurrency to 1 for single browser instance
