@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "p-queue": "^8.0.1",
+    "pm2": "^5.4.2",
     "puppeteer": "^23.2.0"
   },
   "scripts": {
