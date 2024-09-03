@@ -1,20 +1,24 @@
-const Puppeteer = require('puppeteer');
-const path = require('path');
-const fs = require('fs').promises;
+// Make sure this is in convertURL.mjs or convertURL.js with "type": "module" in package.json
+import puppeteer from 'puppeteer';
+import path from 'path';
+import { promises as fs } from 'fs';
+import { fileURLToPath } from 'url';
 
-let PQueue; // Declare PQueue globally
-let queue;  // Declare queue globally
-let isQueueInitialized = false; // Flag to check if queue is initialized
+let PQueue;
+let queue;
+let isQueueInitialized = false;
 
-// Function to dynamically import and initialize PQueue
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 async function initializeQueue() {
   if (!isQueueInitialized) {
     try {
-      const module = await import('p-queue'); // Dynamically import the ES module
-      PQueue = module.default; // Assign the imported default export to PQueue
+      const { default: ImportedPQueue } = await import('p-queue');
+      PQueue = ImportedPQueue;
       queue = new PQueue({ concurrency: 2 });
       console.log('PQueue has been initialized successfully!');
-      isQueueInitialized = true; // Set flag to indicate initialization is done
+      isQueueInitialized = true;
     } catch (error) {
       console.error('Error importing p-queue:', error);
       throw error;
@@ -22,23 +26,19 @@ async function initializeQueue() {
   }
 }
 
-// Function to ensure queue is initialized
 async function ensureInitialized() {
-  await initializeQueue(); // Always await to ensure the queue is initialized before use
+  await initializeQueue();
 }
 
-// Function to convert URL to PDF
 async function convertURL(passedInURL) {
-  await ensureInitialized(); // Ensure queue is initialized
-
+  await ensureInitialized();
   if (!queue) {
     throw new Error('Queue is not initialized properly.');
   }
-
   return queue.add(async () => {
     let browser;
     try {
-      browser = await Puppeteer.launch({
+      browser = await puppeteer.launch({
         args: [
           '--no-sandbox',
           '--disable-dev-shm-usage',
@@ -96,4 +96,4 @@ async function convertURL(passedInURL) {
   });
 }
 
-module.exports = convertURL;
+export default convertURL;
