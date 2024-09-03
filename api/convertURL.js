@@ -2,29 +2,26 @@ const Puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs').promises;
 
-let queue; // Declare queue in the broader scope
+let queuePromise; // Declare a promise for queue initialization
+let queue; // Variable to store the initialized queue
 
-// Immediately-Invoked Async Function Expression (IIFE)
-(async () => {
+// Immediately-Invoked Async Function Expression (IIFE) to dynamically import p-queue
+queuePromise = (async () => {
   try {
-    // Dynamically import the ES Module
     const { default: PQueue } = await import('p-queue');
-
-    // Initialize PQueue after it has been imported
     queue = new PQueue({ concurrency: 2 });
-
-    // Place your existing logic using PQueue here
     console.log('PQueue has been initialized successfully!');
+    return queue;
   } catch (error) {
     console.error('Error importing p-queue:', error);
+    throw error; // Ensure the promise is rejected if there's an error
   }
 })();
 
 // Function to convert URL to PDF
 async function convertURL(passedInURL) {
-  if (!queue) {
-    throw new Error('Queue is not initialized yet. Please wait until the module is ready.');
-  }
+  // Wait for the queue to be initialized
+  await queuePromise;
 
   return queue.add(async () => {
     let browser;
