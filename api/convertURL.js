@@ -2,17 +2,21 @@ const Puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs').promises;
 
+let PQueue; // Declare PQueue globally
 let queue; // Declare queue globally
 
 // Function to initialize the queue dynamically
 async function initializeQueue() {
-  try {
-    const { default: PQueue } = await import('p-queue');
-    queue = new PQueue({ concurrency: 2 });
-    console.log('PQueue has been initialized successfully!');
-  } catch (error) {
-    console.error('Error importing p-queue:', error);
-    throw error;
+  if (!PQueue) {
+    try {
+      const module = await import('p-queue'); // Dynamically import the module
+      PQueue = module.default; // Assign the imported default export to PQueue
+      queue = new PQueue({ concurrency: 2 });
+      console.log('PQueue has been initialized successfully!');
+    } catch (error) {
+      console.error('Error importing p-queue:', error);
+      throw error;
+    }
   }
 }
 
@@ -89,13 +93,4 @@ async function convertURL(passedInURL) {
   });
 }
 
-// Function to handle multiple URL conversions
-async function convertMultipleURLs(urls) {
-  // Wait for the queue to be initialized
-  await queueInitializationPromise;
-
-  const promises = urls.map((url) => convertURL(url));
-  return Promise.all(promises);
-}
-
-module.exports = { convertURL, convertMultipleURLs };
+module.exports = convertURL;
