@@ -2,26 +2,28 @@ const Puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs').promises;
 
-let queuePromise; // Declare a promise for queue initialization
-let queue; // Variable to store the initialized queue
+let queue; // Declare queue globally
+let queueInitialized = false; // Flag to check if queue is initialized
 
-// Immediately-Invoked Async Function Expression (IIFE) to dynamically import p-queue
-queuePromise = (async () => {
-  try {
-    const { default: PQueue } = await import('p-queue');
-    queue = new PQueue({ concurrency: 2 });
-    console.log('PQueue has been initialized successfully!');
-    return queue;
-  } catch (error) {
-    console.error('Error importing p-queue:', error);
-    throw error; // Ensure the promise is rejected if there's an error
+// Function to initialize the queue
+async function initializeQueue() {
+  if (!queueInitialized) {
+    try {
+      const { default: PQueue } = await import('p-queue');
+      queue = new PQueue({ concurrency: 2 });
+      console.log('PQueue has been initialized successfully!');
+      queueInitialized = true;
+    } catch (error) {
+      console.error('Error importing p-queue:', error);
+      throw error; // Ensure the function throws if there's an error
+    }
   }
-})();
+}
 
 // Function to convert URL to PDF
 async function convertURL(passedInURL) {
   // Wait for the queue to be initialized
-  await queuePromise;
+  await initializeQueue();
 
   return queue.add(async () => {
     let browser;
