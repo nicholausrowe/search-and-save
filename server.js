@@ -37,7 +37,7 @@ app.post('/', async (req, res, next) => {
   }
 });
 
-const PORT = process.env.PORT || 3000; // Use Heroku's environment variable PORT or fallback to 3000
+const PORT = process.env.PORT || 4000; // Use Heroku's environment variable PORT or fallback to 3000
 
 app.listen(PORT, () => {
   console.log(`Express server listening on port ${PORT}!`);
