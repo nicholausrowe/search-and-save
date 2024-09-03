@@ -3,19 +3,23 @@ const path = require('path');
 const fs = require('fs').promises;
 // const PQueue = require('p-queue');
 
-// Define an async function to handle the dynamic import
+// Immediately-Invoked Async Function Expression (IIFE)
 (async () => {
-  // Dynamically import the ES Module
-  const { default: PQueue } = await import('p-queue');
+  try {
+    // Dynamically import the ES Module
+    const { default: PQueue } = await import('p-queue');
 
-  // Now you can safely use PQueue in your CommonJS module
-  const queue = new PQueue({ concurrency: 2 });
+    // Initialize PQueue after it has been imported
+    const queue = new PQueue({ concurrency: 2 });
 
-  // Your existing logic using queue
-})().catch(error => console.error(error));
+    // Place your existing logic using PQueue here
+    console.log('PQueue has been initialized successfully!');
 
-// Create a queue with concurrency limit
-const queue = new PQueue({ concurrency: 1 }); // Set concurrency to 1 for single browser instance
+    // Any function calls or logic that depends on PQueue should be inside this async function or called after this point.
+  } catch (error) {
+    console.error('Error importing p-queue:', error);
+  }
+})();
 
 // Function to convert URL to PDF
 async function convertURL(passedInURL) {
