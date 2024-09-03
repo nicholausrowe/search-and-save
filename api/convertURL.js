@@ -89,4 +89,13 @@ async function convertURL(passedInURL) {
   });
 }
 
-module.exports = convertURL;
+// Function to handle multiple URL conversions
+async function convertMultipleURLs(urls) {
+  // Wait for the queue to be initialized
+  await queueInitializationPromise;
+
+  const promises = urls.map((url) => convertURL(url));
+  return Promise.all(promises);
+}
+
+module.exports = { convertURL, convertMultipleURLs };
