@@ -38,6 +38,7 @@ async function convertURL(passedInURL) {
         ],
         headless: false,
         timeout: 120000,
+        dumpio: true
       });
 
       const page = await browser.newPage();
