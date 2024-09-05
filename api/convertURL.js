@@ -14,9 +14,9 @@ async function convertURL(passedInURL) {
       browser = await Puppeteer.launch({
         args: [
           '--no-sandbox',
-          // '--disable-http2',
+          '--disable-http2',
           // '--disable-setuid-sandbox',
-          // '--disable-dev-shm-usage',
+          '--disable-dev-shm-usage',
           // '--disable-gpu',
           // '--disable-features=VizDisplayCompositor',
           // '--disable-background-networking',
