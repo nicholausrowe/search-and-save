@@ -16,7 +16,7 @@ function makeQueries() {
   let names = document.getElementById("names-input").value.split(", ");
   let keywords = document.getElementById("keywords-input").value.split(", ");
   let ticker = document.getElementById("ticker-input").value;
-  let saveFolder = document.getElementById("save-folder-input").value;
+  // let saveFolder = document.getElementById("save-folder-input").value;
 
 
 
