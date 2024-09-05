@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer-core');
+const puppeteer = import('puppeteer');
 import path from 'path';
 import fs from 'fs/promises'; // Import Promises API for fs
 import PQueue from 'p-queue';  // Correctly import p-queue using ES Module syntax
@@ -12,7 +12,6 @@ async function convertURL(passedInURL) {
     let browser;
     try {
       browser = await Puppeteer.launch({
-        executablePath: '/usr/bin/chromium-browser', // or your custom Chromium path
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
