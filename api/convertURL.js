@@ -13,7 +13,7 @@ async function convertURL(passedInURL) {
     try {
       browser = await Puppeteer.launch({
         args: [
-          // '--no-sandbox',
+          '--no-sandbox',
           // '--disable-http2',
           // '--disable-setuid-sandbox',
           // '--disable-dev-shm-usage',
