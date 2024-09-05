@@ -1,4 +1,4 @@
-const puppeteer = import('puppeteer');
+import Puppeteer from 'puppeteer';
 import path from 'path';
 import fs from 'fs/promises'; // Import Promises API for fs
 import PQueue from 'p-queue';  // Correctly import p-queue using ES Module syntax
